@@ -88,6 +88,14 @@ namespace ColoredQualityColumn
             m_host = null;
         }
 
+        public override string UpdateUrl
+        {
+            get
+            {
+                return "https://raw.githubusercontent.com/CutthroatBaron/ColoredQualityColumn/master/VERSION.txt";
+            }
+        }
+
         private void Lv_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             e.Item.UseItemStyleForSubItems = false;
