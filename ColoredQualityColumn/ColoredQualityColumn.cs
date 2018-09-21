@@ -28,12 +28,12 @@ namespace ColoredQualityColumn
         //Quality classification cutoffs, populated per KeePass website.
         //In the future, might make these configurable.
         private SortedList<uint, Color> QualityDelimiter = new SortedList<uint, Color> {
-            {             0, Color.FromArgb(unchecked((int)0xFFFFFFFF)) },
-            {            64, Color.FromArgb(unchecked((int)0xFFFF6961)) },
-            {            80, Color.FromArgb(unchecked((int)0xFFFFB347)) },
-            {           112, Color.FromArgb(unchecked((int)0xFFFDFD96)) },
-            {           128, Color.FromArgb(unchecked((int)0xFFCCFF99)) },
-            { uint.MaxValue, Color.FromArgb(unchecked((int)0xFF77DD77)) },
+            {             0, Color.FromArgb(unchecked((int)0xFFFFFFFF)) }, // White
+            {            64, Color.FromArgb(unchecked((int)0xFFD81B00)) }, // Red
+            {            80, Color.FromArgb(unchecked((int)0xFFFF7D02)) }, // Orange
+            {           112, Color.FromArgb(unchecked((int)0xFFFFFA00)) }, // Yellow
+            {           128, Color.FromArgb(unchecked((int)0xFF84CE00)) }, // Light Green
+            { uint.MaxValue, Color.FromArgb(unchecked((int)0xFF02B801)) }, // Green
         };
         private const string QcpName = "Quality";
 
