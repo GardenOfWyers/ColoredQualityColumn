@@ -1,5 +1,12 @@
 ﻿/*
-  KeePass ColoredQualityColumn Plugin
+ * KeePass ColoredQualityColumn Plugin
+ * Author: Garrett Denham
+ * 
+ * Special thanks to Dominik Reichl (KeePass and QualityColumn) and Scott Richter (QualityHighlighter).
+ * The plugins listed with their names were used heavily as guidance to build this plugin. ColoredQualityColumn
+ * is pretty much built a frankenstein of code between QualityColumn and QuailtyHighlighter to get what I desired
+ * out of both in one plugin.
+ * 
 */
 
 using System;
@@ -31,8 +38,8 @@ namespace ColoredQualityColumn
         private static IPluginHost m_host = null;
         private ColoredQualityColumnProvider m_prov = null;
 
-        //Quality classification cutoffs, populated per KeePass website.
-        //In the future, might make these configurable.
+        // Quality classification cutoffs, populated per KeePass website.
+        // In the future, might make these configurable.
         private SortedList<uint, Color> QualityDelimiter = new SortedList<uint, Color> {
             {             0, Color.FromArgb(unchecked((int)0xFFFFFFFF)) }, // White
             {            64, Color.FromArgb(unchecked((int)0xFFD81B00)) }, // Red
@@ -61,7 +68,7 @@ namespace ColoredQualityColumn
                 "m_lvEntries", true)[0] as ListView);
             if (lv == null) { Debug.Assert(false); return false; }
 
-            //Custom draw the entry list so we can set background color.
+            // Custom draw the entry list so we can set background color.
             lv.OwnerDraw = true;
             lv.DrawColumnHeader += Lv_DrawColumnHeader;
             lv.DrawItem += Lv_DrawItem;
@@ -103,6 +110,8 @@ namespace ColoredQualityColumn
 
         private void Lv_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
+            // Want to indiviually color each subitem based on column name
+            // and disabling UseItemStyleForSubItems allows this to happen.
             e.Item.UseItemStyleForSubItems = false;
             e.DrawDefault = true;
         }
@@ -115,6 +124,7 @@ namespace ColoredQualityColumn
         private void Lv_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             ListViewItem lvi = e.Item;
+            // Only color if currently looking at "Quality" column.
             if (e.Header.Text == Globals.COLUMN_NAME)
             {
                 PwListItem li = (lvi.Tag as PwListItem);
@@ -131,6 +141,8 @@ namespace ColoredQualityColumn
                 uint uCacheEst = ColoredQualityColumnProvider.loadQualityFromCache(strPw);
                 foreach (KeyValuePair<uint, Color> kvp in QualityDelimiter)
                 {
+                    // Evaluate which color to display for current password based on
+                    // strength of password.
                     if (uCacheEst <= kvp.Key)
                     {
                         e.SubItem.BackColor = kvp.Value;
@@ -140,6 +152,7 @@ namespace ColoredQualityColumn
             }
             else
             {
+                // Keep the color the same if it isn't currently the "Quality" column.
                 e.SubItem.BackColor = lvi.BackColor;
             }
             e.DrawDefault = true;
@@ -160,12 +173,18 @@ namespace ColoredQualityColumn
         private string[] m_vColNames = new string[] { Globals.COLUMN_NAME };
         public override string[] ColumnNames
         {
-            get { return m_vColNames; }
+            get
+            { 
+                return m_vColNames;
+            }
         }
 
         public override HorizontalAlignment TextAlign
         {
-            get { return HorizontalAlignment.Right; }
+            get
+            { 
+                return HorizontalAlignment.Right;
+            }
         }
 
         internal static void ClearCache()
@@ -178,11 +197,8 @@ namespace ColoredQualityColumn
 
         internal static uint loadQualityFromCache(String pw)
         {
-            uint pwStrength = 0;
-            if (m_dCache.ContainsKey(pw))
-            {
-                pwStrength = m_dCache[pw];
-            }
+            uint pwStrength;
+            if (!m_dCache.TryGetValue(pw, out pwStrength)) pwStrength = 0;
             return pwStrength;
         }
 
@@ -223,6 +239,7 @@ namespace ColoredQualityColumn
 
                 lock (m_oCacheSync)
                 {
+                    // Store quality estimation in cache.
                     m_dCache[strPw] = uEst;
                 }
             }
