@@ -3,6 +3,8 @@ ColoredQualityColumn is a KeePass plugin that provides a new 'Quality' column th
 
 ![Screenshot of ColoredQualityColumn](screenshot.png)
 
+Quality strength values were grabbed from the [Password Quality Estimation](https://keepass.info/help/kb/pw_quality_est.html) page provided by KeePass.
+
 # Prerequisites
 * KeePass 2.x
 
