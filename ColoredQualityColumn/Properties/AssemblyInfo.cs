@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ColoredQualityColumn")]
-[assembly: AssemblyDescription("Provides a color coded 'Password Quality' column. Uses 'QualityColumn' plugin as codebase.")]
+[assembly: AssemblyDescription("Supplies a color-coded 'Quality' column.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Garrett Denham")]
 [assembly: AssemblyProduct("KeePass Plugin")]

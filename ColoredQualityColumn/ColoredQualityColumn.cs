@@ -21,10 +21,16 @@ using KeePassLib.Security;
 
 namespace ColoredQualityColumn
 {
+    public static class Globals
+    {
+        public const string COLUMN_NAME = "Quality";
+    }
+
     public sealed class ColoredQualityColumnExt : Plugin
     {
         private static IPluginHost m_host = null;
         private ColoredQualityColumnProvider m_prov = null;
+
         //Quality classification cutoffs, populated per KeePass website.
         //In the future, might make these configurable.
         private SortedList<uint, Color> QualityDelimiter = new SortedList<uint, Color> {
@@ -35,7 +41,6 @@ namespace ColoredQualityColumn
             {           128, Color.FromArgb(unchecked((int)0xFF84CE00)) }, // Light Green
             { uint.MaxValue, Color.FromArgb(unchecked((int)0xFF02B801)) }, // Green
         };
-        private const string QcpName = "Quality";
 
         internal static IPluginHost Host
         {
@@ -110,7 +115,7 @@ namespace ColoredQualityColumn
         private void Lv_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             ListViewItem lvi = e.Item;
-            if (e.Header.Text == QcpName)
+            if (e.Header.Text == Globals.COLUMN_NAME)
             {
                 PwListItem li = (lvi.Tag as PwListItem);
                 if (li == null) { Debug.Assert(false); return; }
@@ -148,14 +153,11 @@ namespace ColoredQualityColumn
 
     public sealed class ColoredQualityColumnProvider : ColumnProvider
     {
-        private const string QcpName = "Quality";
-        private const string QcpBitsSuffix = " bits";
-
         private static object m_oCacheSync = new object();
         private static Dictionary<string, uint> m_dCache =
             new Dictionary<string, uint>();
 
-        private string[] m_vColNames = new string[] { QcpName };
+        private string[] m_vColNames = new string[] { Globals.COLUMN_NAME };
         public override string[] ColumnNames
         {
             get { return m_vColNames; }
@@ -187,7 +189,7 @@ namespace ColoredQualityColumn
         public override string GetCellData(string strColumnName, PwEntry pe)
         {
             if (strColumnName == null) { Debug.Assert(false); return string.Empty; }
-            if (strColumnName != QcpName) return string.Empty;
+            if (strColumnName != Globals.COLUMN_NAME) return string.Empty;
             if (pe == null) { Debug.Assert(false); return string.Empty; }
 
             string strPw = pe.Strings.ReadSafe(PwDefs.PasswordField);
@@ -225,7 +227,7 @@ namespace ColoredQualityColumn
                 }
             }
 
-            return (uEst.ToString() + QcpBitsSuffix);
+            return uEst.ToString() + " bits";
         }
     }
 }
