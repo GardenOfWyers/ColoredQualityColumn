@@ -5,12 +5,12 @@ ColoredQualityColumn is a KeePass plugin that provides a new 'Quality' column th
 
 Quality strength values were grabbed from the [Password Quality Estimation](https://keepass.info/help/kb/pw_quality_est.html) page provided by KeePass.
 
-# Prerequisites
+## Prerequisites
 * KeePass 2.x
 
-# Building
+## Building
 * See https://keepass.info/help/v2_dev/plg_index.html#plgx
 
-# Thanks
+## Thanks
 * Dominik Reichl for not only developing KeePass, but the [QualityColumn](https://keepass.info/plugins.html#qcol) plugin as well. That plugin was used as the foundation for this one.
 * Scott Richter for [QualityHighlighter](https://keepass.info/plugins.html#qhl) which was used as code guidance for the coloring.
